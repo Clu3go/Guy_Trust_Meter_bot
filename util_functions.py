@@ -42,8 +42,8 @@ info_feedback_dic = {"Ita" : "Puoi inviarci feedbacks o consigli su come miglior
 					"Eng" : "You can send us feedbacks or suggentions to improve the bot by typing Feed: before the message's text. \nDon't type more than 300 characters (50 words on average). \nThis limit is necessary to avoid spam and to allow us to easily read all the messages."}
 
 
-info_contacts_dic = {"Ita" : "Puoi contattarci tramite email: guytrustmeterbot@gmail.com \nIl codice del bot (senza database) è visionabile al link:  ",
-					"Eng" : "You can contact us trough email: guytrustmeterbot@gmail.com \nThe code (without database) can be checked at this link: "}
+info_contacts_dic = {"Ita" : "Puoi contattarci tramite email: guytrustmeterbot@gmail.com \nIl codice del bot (senza database) è visionabile al link: https://github.com/Clu3go/Guy_Trust_Meter_bot",
+					"Eng" : "You can contact us trough email: guytrustmeterbot@gmail.com \nThe code (without database) can be checked at this link: https://github.com/Clu3go/Guy_Trust_Meter_bot"}
 
 
 
@@ -122,9 +122,9 @@ def reply_check_user(check, language):
 	elif check and (language in languages_ita):
 		reply = "⚠️ Fa attenzione! Il tuo contatto è presente nel nostro database."
 	elif not check and (language in languages_eng):
-		reply = "Your contact has not been found in any of the group present in our database."
+		reply = "Your contact has not been found in any of the group present in our database.\n(updated to 10-Aug-2020)"
 	else:
-		reply = "Il tuo contatto non è stato trovato in nessun gruppo presente nel nostro database."
+		reply = "Il tuo contatto non è stato trovato in nessun gruppo presente nel nostro database.\n(aggiornato al 10-Ago-2020)"
 	return reply
 
 
@@ -138,11 +138,46 @@ def reply_error_contact(language):
 
 
 
+def reply_check_user_name(flags_dict, first_name, last_name, language):
+	if language in languages_ita:
+		reply = "Il contatto che hai inviato non contiene alcun numero di telefono.\n\
+		Purtoppo in questo caso non è possibile estrarre e comparare l'user_id (unico per ogni utente telegram) con quelli presenti nel nostro database.\n\
+		Abbiamo comunque comparato le altre informazioni visibili del contatto:\n"
+		try: 
+			if flags_dict['first_name'] is not None:
+				reply = reply + "Nome: nel database sono presenti {} {}.\n".format(flags_dict['first_name'], first_name)
+		except:
+			pass
+		try: 
+			if flags_dict['last_name'] is not None:
+				reply = reply + "Cognome: nel database sono presenti {} {}.\n".format(flags_dict['last_name'], last_name)
+		except:
+			pass
+		reply = reply + "Prendi con le pinze questo risultato, ogni utente può cambiare nome e cognome a piacimento.\nPer un confronto preciso dovresti trovare il numero di telefono al contatto."
+	else:
+		reply = "The contact you sent does not contain any phone number.\n\
+		unfortunatly in this case we can't extract and compare the user_id (unique for every telegram user) with the ones in our database.\n\
+		we nevertheless checked the other contact's visible information:\n"
+		try: 
+			if flags_dict['first_name'] is not None:
+				reply = reply + "Firstname: the database contains {} {}.\n".format(flags_dict['first_name'], first_name)
+		except:
+			pass
+		try: 
+			if flags_dict['last_name'] is not None:
+				reply = reply + "Lastname: the database contains {} {}.\n".format(flags_dict['last_name'], last_name)
+		except:
+			pass
+		reply = reply + "Take this matches with a pinch of salt, every user can change its firstname and lastname at every moment.\nFor a presice control you should get the contact phone number."
+	return reply
+
+
+
 def reply_error_message(language):
 	if language in languages_ita:
-		reply = "Per favore, invia un contatto, o digita /start per selezionare nuovamente la lingua. \nAltre azioni per ora non sono disponibili"
+		reply = "Per favore, invia un contatto, o clicca uno dei comandi nel menù.\nAltre azioni per ora non sono disponibili"
 	else:
-		reply = "Please send a contact, or type /start to select again the language. \nOther actions are not available yet."
+		reply = "Please send a contact, or press one of the command in the menù.\nOther actions are not available yet."
 	return reply
 
 
