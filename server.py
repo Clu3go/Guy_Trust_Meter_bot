@@ -26,6 +26,7 @@ while True:
 
 	if updates:
 		for item in updates:
+			
 			from_ = item["message"]["from"]["id"]
 
 			try:
@@ -70,12 +71,46 @@ while True:
 					# if the message does not contain text we assume the user is sending a contact to check
 					try:
 						message = item['message']['contact']['user_id']
-						#print('id: {}'.format(message))
+						#print(item['message']['contact'])
 						check_flag = database.check_user_id(message)
 						reply = ut.reply_check_user(check_flag, default_language)
 
+					# if no user_id is found, we check if the user has set a first and a last name to use them as keys for the qwery
 					except:
-						reply = ut.reply_error_contact(default_language)
+						try:
+							first_name = item['message']['contact']['first_name']
+							if first_name == '':
+								first_name = None
+							else:
+								# check how many rows contains this first_name  
+								first_name_flag = database.check_user_first_name(first_name)
+
+						except:
+							first_name = None
+						try:
+							last_name = item['message']['contact']['last_name']
+							if last_name == '':
+								last_name = None
+							else:
+								# same check as for last_name
+								last_name_flag = database.check_user_last_name(last_name)
+						except:
+							last_name = None
+
+						# if there's a match for first_name or last_name reply with info about the amount of correspondances found
+						if (first_name is not None) or (last_name is not None):
+							# dictionry to pass to the reply function both flags as a single argument 
+							flags_dict = {}
+
+							if first_name is not None:
+								flags_dict['first_name'] = first_name_flag
+							if last_name is not None:
+								flags_dict['last_name'] = last_name_flag
+
+							reply = ut.reply_check_user_name(flags_dict, first_name, last_name, default_language)
+
+						else:
+							reply = ut.reply_error_contact(default_language)
 
 			chat_bot.send_message(reply, from_)
 
