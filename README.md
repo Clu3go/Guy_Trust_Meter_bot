@@ -1,2 +1,8 @@
 # Guy_Trust_Meter_bot
-Telegram bot to help counter revenge porn 
+
+Guy_trust_meter is meant as a tool to help counter the revenge porn phenomenon on many italian Telegram's groups. Since Telegram does not seem interested in taking active actions to oppose and block groups created with the aim of allowing people to exchange in anonymity pornographic (and pedopornographic) content, users are left alone. <br />
+Classic tools such as group reporting is neither sufficient nor effective, since these groups can be recreated within a few days. That's why we decided to create a database of users who are or have been part of these groups, to allow anyone who's interested to check if one of its contacts is part of this database. <br />
+
+It's important to stress that a positive match with a contact is NOTHING MORE than a positive match. This only means that the contact was part of one of the groups during the creation of the database or during one of its updates. This implies also that a contact COULD BE NOT ANYMORE PART OF THOSE GROUPS, but we have chosen to keep the contacts in the database as well of users who have removed themselves from the groups after creating the first version of the database. <br />	
+Another important note is that the bot DOES NOT allow any other action other than checking your own contacts. We are willing to provide the database to the competent authorities but it is not possible through the bot to report people or anything else. <br />
+The purpose of the bot remains only to give people an extra tool to better judge friends, potential partners, one's own children and other categories for which the belonging to revenge porn groups should be a wake-up call.
